@@ -7,7 +7,7 @@ import { MapId } from "../types/misc";
 export const Main: MapDef = {
     mapId: MapId.Main,
     desc: {
-        name: "Snow Duel (1v1)",
+        name: "Normal",
         icon: "img/loot/loot-throwable-snowball.svg",
         buttonCss: "btn-mode-snow",
         backgroundImg: "img/main_splash.png",
