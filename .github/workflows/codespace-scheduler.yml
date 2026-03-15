@@ -1,0 +1,82 @@
+name: Codespace Daily Scheduler
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  
+    - cron: '0 9 * * *'  
+  workflow_dispatch:       
+    inputs:
+      action:
+        description: 'start or stop'
+        required: true
+        default: 'start'
+
+jobs:
+  manage-codespace:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine action (scheduled vs manual)
+        id: action
+        run: |
+          # For scheduled runs, detect which cron triggered this
+          HOUR=$(date -u +%H)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "action=${{ github.event.inputs.action }}" >> $GITHUB_OUTPUT
+          elif [ "$HOUR" = "05" ]; then
+            echo "action=start" >> $GITHUB_OUTPUT
+          else
+            echo "action=stop" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Start Codespace
+        if: steps.action.outputs.action == 'start'
+        env:
+          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        run: |
+          gh codespace start --codespace literate-memory-q7pp6pxrgxh9g7g
+
+      - name: Wait for codespace to be ready
+        if: steps.action.outputs.action == 'start'
+        env:
+          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        run: |
+          echo "Waiting for codespace to reach Running state..."
+          for i in $(seq 1 20); do
+            STATE=$(gh api /user/codespaces/literate-memory-q7pp6pxrgxh9g7g --jq '.state')
+            echo "Current state: $STATE"
+            if [ "$STATE" = "Available" ]; then
+              echo "Codespace is ready!"
+              break
+            fi
+            sleep 15
+          done
+
+      - name: Run startup command
+        if: steps.action.outputs.action == 'start'
+        env:
+          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        run: |
+          gh codespace ssh --codespace literate-memory-q7pp6pxrgxh9g7g -- \
+            "cd /workspaces/$(ls /workspaces/ | head -1) && git pull && pm2 resurrect"
+
+      - name: Make ports public (3000, 8000, 8001)
+        if: steps.action.outputs.action == 'start'
+        env:
+          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        run: |
+          for PORT in 3000 8000 8001; do
+            echo "Setting port $PORT to public..."
+            gh api \
+              --method PATCH \
+              /user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/$PORT \
+              -f visibility='public' || echo "Port $PORT may not be forwarded yet, skipping"
+          done
+
+      - name: Stop Codespace
+        if: steps.action.outputs.action == 'stop'
+        env:
+          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        run: |
+          gh codespace stop --codespace literate-memory-q7pp6pxrgxh9g7g
+          echo "Codespace stopped successfully."
