@@ -76,7 +76,20 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          gh codespace ports visibility 3000:public 8000:public 8001:public -c literate-memory-q7pp6pxrgxh9g7g
+          echo "Waiting 90s for pm2 apps to fully start..."
+          sleep 90
+          for PORT in 3000 8000 8001; do
+            echo "Setting port $PORT to public..."
+            for attempt in 1 2 3 4 5; do
+              if gh codespace ports visibility $PORT:public -c literate-memory-q7pp6pxrgxh9g7g; then
+                echo "Port $PORT set to public!"
+                break
+              else
+                echo "Attempt $attempt failed for port $PORT, retrying in 20s..."
+                sleep 20
+              fi
+            done
+          done
 
       # ─────────────────────────────────────────
       # STOP: Shut down codespace
