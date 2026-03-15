@@ -1,5 +1,4 @@
 import { util } from "../../utils/util";
-import { v2 } from "../../utils/v2";
 import type { MapDef } from "../mapDefs";
 import { MapId } from "../types/misc";
 import { Main, type PartialMapDef } from "./baseDefs";
@@ -10,6 +9,7 @@ const mapDef: PartialMapDef = {
         name: "Winter Duel (1v1)",
         icon: "img/loot/loot-throwable-snowball.svg",
         buttonCss: "btn-mode-snow",
+        buttonText: "Winter Duel (1v1)",
         backgroundImg: "img/main_splash_0_6_10.png",
     },
     assets: {
@@ -21,7 +21,6 @@ const mapDef: PartialMapDef = {
     },
     biome: {
         colors: {
-            // Dark winter theme
             background: 0x0d1a2e,
             water: 0x0a1520,
             waterRipple: 0x5ba3bf,
@@ -32,6 +31,9 @@ const mapDef: PartialMapDef = {
             playerSubmerge: 0x1a5c78,
             playerGhillie: 0x7a8c9e,
         },
+        valueAdjust: 1,
+        sound: { riverShore: "sand" },
+        tracerColors: {},
         particles: { camera: "falling_snow_fast" },
         airdrop: {
             planeImg: "map-plane-01x.img",
