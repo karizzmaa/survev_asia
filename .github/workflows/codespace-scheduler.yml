@@ -2,8 +2,8 @@ name: Codespace Daily Scheduler
 
 on:
   schedule:
-    - cron: '30 23 * * *'   # 5:00 AM IST (START)
-    - cron: '30 3 * * *'    # 9:00 AM IST (STOP)
+    - cron: '40 4 * * *'
+    - cron: '40 8 * * *'
   workflow_dispatch:
     inputs:
       action:
