@@ -29,7 +29,7 @@ jobs:
           fi
 
       # ─────────────────────────────────────────
-      # START: Boot codespace, run command
+      # START: Boot codespace, run command, open ports
       # ─────────────────────────────────────────
       - name: Start Codespace
         if: steps.action.outputs.action == 'start'
@@ -64,12 +64,13 @@ jobs:
           echo "Giving codespace extra 60s to fully initialize..."
           sleep 60
 
-      - name: Run startup command
+      - name: Run startup command and publicize ports
         if: steps.action.outputs.action == 'start'
         env:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect"
+          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- \
+            "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect && sleep 30 && gh codespace ports visibility 3000:public 8000:public 8001:public"
 
       # ─────────────────────────────────────────
       # STOP: Shut down codespace
