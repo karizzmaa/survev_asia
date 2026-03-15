@@ -67,7 +67,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "pwd && find / -name '.git' -type d 2>/dev/null | head -10"
+          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git pull && pm2 resurrect"
 
       - name: Make ports public (3000, 8000, 8001)
         if: steps.action.outputs.action == 'start'
