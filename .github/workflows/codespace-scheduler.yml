@@ -65,7 +65,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect"
+          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pnpm build && pm2 resurrect"
 
       - name: Make ports public (3000, 8000, 8001)
         if: steps.action.outputs.action == 'start'
@@ -73,7 +73,7 @@ jobs:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
           echo "Waiting 60s for pm2 apps to bind to ports..."
-          sleep 60
+          sleep 25
           gh codespace ports visibility 3000:public 8000:public 8001:public -c literate-memory-q7pp6pxrgxh9g7g
 
       - name: Stop Codespace
