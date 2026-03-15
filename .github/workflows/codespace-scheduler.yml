@@ -1,9 +1,6 @@
 name: Codespace Daily Scheduler
 
 on:
-  schedule:
-    - cron: '40 4 * * *'
-    - cron: '40 8 * * *'
   workflow_dispatch:
     inputs:
       action:
@@ -24,17 +21,10 @@ jobs:
           sudo apt install gh -y
           gh --version
 
-      - name: Determine action (scheduled vs manual)
+      - name: Determine action
         id: action
         run: |
-          HOUR=$(date -u +%H)
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "action=${{ github.event.inputs.action }}" >> $GITHUB_OUTPUT
-          elif [ "$HOUR" = "23" ]; then
-            echo "action=start" >> $GITHUB_OUTPUT
-          else
-            echo "action=stop" >> $GITHUB_OUTPUT
-          fi
+          echo "action=${{ github.event.inputs.action }}" >> $GITHUB_OUTPUT
 
       - name: Start Codespace
         if: steps.action.outputs.action == 'start'
