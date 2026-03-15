@@ -91,8 +91,7 @@ export function getConfig(isProduction: boolean, dir: string) {
             allowBots: isDev,
             allowEditMsg: isDev,
             allowMockAccount: isDev,
-        },
-        defaultItems: {},
+        }
     };
 
     const dirname = import.meta?.dirname || __dirname;
