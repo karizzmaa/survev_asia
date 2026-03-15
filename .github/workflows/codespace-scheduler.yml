@@ -33,11 +33,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          curl -L \
+          RESPONSE=$(curl -s -L \
             -X POST \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
-            https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/start
+            https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/start)
+          echo "Start response: $RESPONSE"
 
       - name: Wait for codespace to be ready
         if: steps.action.outputs.action == 'start'
