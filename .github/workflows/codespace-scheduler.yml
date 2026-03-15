@@ -16,6 +16,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install latest gh CLI
+        run: |
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh -y
+          gh --version
+
       - name: Determine action (scheduled vs manual)
         id: action
         run: |
@@ -62,12 +70,21 @@ jobs:
           echo "Giving codespace extra 60s to fully initialize..."
           sleep 60
 
-      - name: Run startup command and publicize ports
+      - name: Run startup command
         if: steps.action.outputs.action == 'start'
         env:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect && sleep 30 && curl -s -X PATCH -H 'Authorization: Bearer $GH_TOKEN' -H 'Accept: application/vnd.github+json' -H 'Content-Type: application/json' -d '{\"visibility\":\"public\"}' https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/3000 && curl -s -X PATCH -H 'Authorization: Bearer $GH_TOKEN' -H 'Accept: application/vnd.github+json' -H 'Content-Type: application/json' -d '{\"visibility\":\"public\"}' https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/8000 && curl -s -X PATCH -H 'Authorization: Bearer $GH_TOKEN' -H 'Accept: application/vnd.github+json' -H 'Content-Type: application/json' -d '{\"visibility\":\"public\"}' https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/8001"
+          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect"
+
+      - name: Make ports public (3000, 8000, 8001)
+        if: steps.action.outputs.action == 'start'
+        env:
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+        run: |
+          echo "Waiting 60s for pm2 apps to bind to ports..."
+          sleep 60
+          gh codespace ports visibility 3000:public 8000:public 8001:public -c literate-memory-q7pp6pxrgxh9g7g
 
       - name: Stop Codespace
         if: steps.action.outputs.action == 'stop'
