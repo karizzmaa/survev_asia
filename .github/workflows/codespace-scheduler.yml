@@ -66,7 +66,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect && sleep 30 && GH_TOKEN=$GH_TOKEN gh codespace ports visibility 3000:public 8000:public 8001:public"
+          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect && sleep 30 && curl -s -X PATCH -H 'Authorization: Bearer $GH_TOKEN' -H 'Accept: application/vnd.github+json' -H 'Content-Type: application/json' -d '{\"visibility\":\"public\"}' https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/3000 && curl -s -X PATCH -H 'Authorization: Bearer $GH_TOKEN' -H 'Accept: application/vnd.github+json' -H 'Content-Type: application/json' -d '{\"visibility\":\"public\"}' https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/8000 && curl -s -X PATCH -H 'Authorization: Bearer $GH_TOKEN' -H 'Accept: application/vnd.github+json' -H 'Content-Type: application/json' -d '{\"visibility\":\"public\"}' https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/8001"
 
       - name: Stop Codespace
         if: steps.action.outputs.action == 'stop'
