@@ -29,7 +29,7 @@ jobs:
           fi
 
       # ─────────────────────────────────────────
-      # START: Boot codespace, run command, open ports
+      # START: Boot codespace, run command
       # ─────────────────────────────────────────
       - name: Start Codespace
         if: steps.action.outputs.action == 'start'
@@ -70,26 +70,6 @@ jobs:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
           gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect"
-
-      - name: Make ports public (3000, 8000, 8001)
-        if: steps.action.outputs.action == 'start'
-        env:
-          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
-        run: |
-          echo "Waiting 90s for pm2 apps to fully start..."
-          sleep 90
-          for PORT in 3000 8000 8001; do
-            echo "Setting port $PORT to public..."
-            for attempt in 1 2 3 4 5; do
-              if gh codespace ports visibility $PORT:public -c literate-memory-q7pp6pxrgxh9g7g; then
-                echo "Port $PORT set to public!"
-                break
-              else
-                echo "Attempt $attempt failed for port $PORT, retrying in 20s..."
-                sleep 20
-              fi
-            done
-          done
 
       # ─────────────────────────────────────────
       # STOP: Shut down codespace
