@@ -1,0 +1,17 @@
+{
+  "forwardPorts": [3000, 8000, 8001],
+  "portsAttributes": {
+    "3000": {
+      "label": "App",
+      "visibility": "public"
+    },
+    "8000": {
+      "label": "Server",
+      "visibility": "public"
+    },
+    "8001": {
+      "label": "Server Alt",
+      "visibility": "public"
+    }
+  }
+}
