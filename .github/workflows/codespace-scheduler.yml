@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "start or stop"
+        description: 'start or stop'
         required: true
-        default: "start"
+        default: 'start'
 
 jobs:
   manage-codespace:
@@ -20,7 +20,6 @@ jobs:
         id: action
         run: |
           HOUR=$(date -u +%H)
-
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "action=${{ github.event.inputs.action }}" >> $GITHUB_OUTPUT
           elif [ "$HOUR" = "23" ]; then
@@ -29,99 +28,67 @@ jobs:
             echo "action=stop" >> $GITHUB_OUTPUT
           fi
 
-      # ─────────────────────────────
-      # START CODESPACE
-      # ─────────────────────────────
+      # ─────────────────────────────────────────
+      # START: Boot codespace, run command, open ports
+      # ─────────────────────────────────────────
       - name: Start Codespace
         if: steps.action.outputs.action == 'start'
         env:
-          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          echo "Starting codespace..."
           curl -L \
             -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/start
 
       - name: Wait for codespace to be ready
         if: steps.action.outputs.action == 'start'
         env:
-          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
           echo "Waiting for codespace to reach Available state..."
           for i in $(seq 1 30); do
             STATE=$(curl -s \
-              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "Authorization: Bearer $GH_TOKEN" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g \
               | python3 -c "import sys,json; print(json.load(sys.stdin)['state'])")
-
             echo "Current state: $STATE"
-
             if [ "$STATE" = "Available" ]; then
               echo "Codespace is ready!"
               break
             fi
-
             sleep 20
           done
-
           echo "Giving codespace extra 60s to fully initialize..."
           sleep 60
 
-      - name: Install GitHub CLI
-        if: steps.action.outputs.action == 'start'
-        run: |
-          type gh || (
-            sudo apt update
-            sudo apt install gh -y
-          )
-
-      - name: Authenticate GitHub CLI
-        if: steps.action.outputs.action == 'start'
-        env:
-          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
-        run: |
-          echo "$GITHUB_TOKEN" | gh auth login --with-token
-
       - name: Run startup command
         if: steps.action.outputs.action == 'start'
+        env:
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- \
-          "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect"
+          gh codespace ssh -c literate-memory-q7pp6pxrgxh9g7g -- "cd /workspaces/survev_asia && git stash && git pull && pm2 resurrect"
 
       - name: Make ports public (3000, 8000, 8001)
         if: steps.action.outputs.action == 'start'
         env:
-          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          echo "Making ports public..."
-          sleep 30
+          gh codespace ports visibility 3000:public 8000:public 8001:public -c literate-memory-q7pp6pxrgxh9g7g
 
-          for PORT in 3000 8000 8001; do
-            echo "Setting port $PORT to public..."
-            curl -L \
-              -X PATCH \
-              -H "Authorization: Bearer $GITHUB_TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/ports/$PORT \
-              -d '{"visibility":"public"}' || echo "Port $PORT skipped"
-          done
-
-      # ─────────────────────────────
-      # STOP CODESPACE
-      # ─────────────────────────────
+      # ─────────────────────────────────────────
+      # STOP: Shut down codespace
+      # ─────────────────────────────────────────
       - name: Stop Codespace
         if: steps.action.outputs.action == 'stop'
         env:
-          GITHUB_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
         run: |
-          echo "Stopping codespace..."
           curl -L \
             -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/user/codespaces/literate-memory-q7pp6pxrgxh9g7g/stop
-
           echo "Codespace stopped."
