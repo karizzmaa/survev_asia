@@ -1455,6 +1455,8 @@ export class Player extends BaseGameObject {
         for (const [item, amount] of Object.entries(defaultItems.inventory)) {
             this.invManager.set(item as InventoryItem, amount);
         }
+            this.boost = 100;
+        }
 
         this.setLoadout(loadout ? loadout : joinMsg.loadout, !loadout);
 
