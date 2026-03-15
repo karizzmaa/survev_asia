@@ -29,7 +29,7 @@ export function getConfig(isProduction: boolean, dir: string) {
         regions: {},
         proxies: {},
         modes: [
-            { mapName: "winter_duel", teamMode: TeamMode.Solo, enabled: true },
+            { mapName: "main", teamMode: TeamMode.Solo, enabled: true },
             { mapName: "main", teamMode: TeamMode.Duo, enabled: false },
             { mapName: "main", teamMode: TeamMode.Squad, enabled: false },
             { mapName: "winter_duel", teamMode: TeamMode.Solo, enabled: false },
