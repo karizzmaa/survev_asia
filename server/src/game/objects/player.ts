@@ -1456,7 +1456,7 @@ export class Player extends BaseGameObject {
             this.invManager.set(item as InventoryItem, amount);
         }
             this.boost = 100;
-        
+        }
 
         this.setLoadout(loadout ? loadout : joinMsg.loadout, !loadout);
 
