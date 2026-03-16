@@ -318,17 +318,6 @@ export class Gas {
     }
 
     private _getStageData() {
-        // Winter Duel: no zone - always return a huge safe radius with no damage
-        if (this.game.config.mapName === "winter_duel") {
-            if (this.stage === 0) return GasStages[0];
-            // Return a static waiting stage with huge radius and no damage
-            return {
-                mode: GasMode.Waiting,
-                duration: 9999,
-                rad: 0.99,
-                damage: 0,
-            } as const;
-        }
         return GasStages[this.stage];
     }
 

@@ -11,7 +11,6 @@ export enum MapId {
     Cobalt = 7,
     Birthday = 8,
     Beach = 9,
-    WinterDuel = 10,
 }
 
 export const TeamModeToString = {

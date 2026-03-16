@@ -1377,32 +1377,6 @@ export class Player extends BaseGameObject {
             defaultItems = this.game.playerBarn.defaultItems;
         }
 
-        // Winter Duel (1v1): override spawn items with full gear
-        if (this.game.config.mapName === "winter_duel") {
-            defaultItems = util.mergeDeep({}, defaultItems, {
-                weapons: [
-                    { type: "spas12", ammo: 25 },
-                    { type: "sv98_winter", ammo: 20 },
-                    { type: "fists", ammo: 0 },
-                    { type: "", ammo: 0 },
-                ],
-                helmet: "helmet03",
-                chest: "chest03",
-                backpack: "backpack03",
-                scope: "8xscope",
-                perks: [{ type: "endless_ammo", droppable: false }],
-                inventory: {
-                    "12gauge": 9999,
-                    "762mm": 9999,
-                    "8xscope": 1,
-                    bandage: 20,
-                    healthkit: 4,
-                    soda: 8,
-                    painkiller: 4,
-                },
-            });
-        }
-
         // createCircle clones the position
         // so set it manually to link both
         this.collider = collider.createCircle(this.pos, this.rad);
@@ -1455,8 +1429,6 @@ export class Player extends BaseGameObject {
         for (const [item, amount] of Object.entries(defaultItems.inventory)) {
             this.invManager.set(item as InventoryItem, amount);
         }
-            this.boost = 100;
-        
 
         this.setLoadout(loadout ? loadout : joinMsg.loadout, !loadout);
 

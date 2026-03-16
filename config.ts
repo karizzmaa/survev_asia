@@ -30,9 +30,8 @@ export function getConfig(isProduction: boolean, dir: string) {
         proxies: {},
         modes: [
             { mapName: "main", teamMode: TeamMode.Solo, enabled: true },
-            { mapName: "main", teamMode: TeamMode.Duo, enabled: false },
-            { mapName: "main", teamMode: TeamMode.Squad, enabled: false },
-            { mapName: "winter_duel", teamMode: TeamMode.Solo, enabled: false },
+            { mapName: "main", teamMode: TeamMode.Duo, enabled: true },
+            { mapName: "main", teamMode: TeamMode.Squad, enabled: true },
         ],
         clientTheme: "main",
         gameTps: 100,
@@ -64,34 +63,13 @@ export function getConfig(isProduction: boolean, dir: string) {
         cachingEnabled: false,
         rateLimitsEnabled: isProduction,
         uniqueInGameNames: true,
-        defaultItems: {
-    weapons: [
-        { type: "spas12", ammo: 9 },
-        { type: "sv98", ammo: 10 },
-        { type: "fists", ammo: 0 },
-        { type: "", ammo: 0 },
-    ],
-    helmet: "helmet03",
-    chest: "chest03",
-    backpack: "backpack03",
-    scope: "4xscope",
-    perks: [{ type: "endless_ammo", droppable: false }],
-    inventory: {
-        "12gauge": 90,
-        "762mm": 300,
-        "8xscope": 1,
-        bandage: 30,
-        healthkit: 4,
-        soda: 8,
-        painkiller: 4,
-    },
-},
         debug: {
             spawnMode: "default",
             allowBots: isDev,
             allowEditMsg: isDev,
             allowMockAccount: isDev,
-        }
+        },
+        defaultItems: {},
     };
 
     const dirname = import.meta?.dirname || __dirname;

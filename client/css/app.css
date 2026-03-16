@@ -4801,8 +4801,8 @@ input [type="image"]:focus {
 }
 
 #modal-customize-body {
-  background-color: #1a2c3d;
-  color: #d0e8ff;
+  background-color: #83af50;
+  color: #000;
   height: auto;
 }
 
@@ -4813,13 +4813,12 @@ input [type="image"]:focus {
 }
 
 #modal-customize-item-name {
-  color: #a8d8f0;
+  color: #fff;
   cursor: pointer;
   display: inline;
   font-size: 48px;
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(100, 180, 255, 0.6), 2px 2px 2px rgba(0, 0, 0, 0.75);
-  letter-spacing: 1px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.75);
 }
 
 #modal-customize-item-rarity {
@@ -4982,19 +4981,16 @@ input [type="image"]:focus {
 }
 
 #modal-customize-list {
-  background-color: rgba(5, 15, 30, 0.85);
+  background-color: rgba(0, 0, 0, 0.3);
   height: 362px;
   overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
   width: 100%;
-  border-top: 1px solid rgba(80, 140, 200, 0.3);
 }
 
 .customize-list-item {
-  background-color: rgba(15, 35, 60, 0.7);
-  border: 1px solid rgba(60, 110, 160, 0.4);
-  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
   display: inline-block;
   height: 96px;
@@ -5002,7 +4998,6 @@ input [type="image"]:focus {
   margin-top: 8px;
   position: relative;
   width: 96px;
-  transition: all 0.15s ease;
 }
 
 .customize-list-item-unlocked {
@@ -5019,18 +5014,13 @@ input [type="image"]:focus {
 
 .customize-list-item:hover {
   opacity: 1;
-  background-color: rgba(40, 80, 130, 0.7);
-  border-color: rgba(100, 180, 255, 0.7);
-  box-shadow: 0 0 8px rgba(100, 180, 255, 0.4);
   transition: all 0.1s ease;
 }
 
 .customize-list-item-selected {
   opacity: 1;
-  border: 3px solid #5bc8ff !important;
-  box-shadow: 0 0 14px rgba(91, 200, 255, 0.7), inset 0 0 6px rgba(91, 200, 255, 0.15);
+  border: 5px solid #0f0;
   box-sizing: border-box;
-  background-color: rgba(30, 70, 120, 0.8) !important;
 }
 
 .customize-list-item > .customize-item-image {
@@ -5082,16 +5072,12 @@ input [type="image"]:focus {
 }
 
 #color-picker-hex {
-  border: 2px solid #2a6090;
-  border-radius: 4px;
-  background: rgba(10, 25, 50, 0.8);
-  color: #a8d8f0;
+  border: 2px solid #006400;
+  border-radius: 2px;
 }
 
 #color-picker-hex:focus {
-  border: 2px solid #5bc8ff;
-  box-shadow: 0 0 6px rgba(91, 200, 255, 0.4);
-  outline: none;
+  border: 2px solid #4bc800;
 }
 
 #color-picker {
@@ -5325,14 +5311,11 @@ input [type="image"]:focus {
 }
 
 #modal-customize-cat-title {
-  color: #a8d8f0;
-  font-size: 28px;
-  font-weight: 700;
+  color: #fff;
+  font-size: 32px;
   left: 18px;
-  letter-spacing: 2px;
   position: absolute;
-  text-shadow: 0 0 12px rgba(100, 200, 255, 0.6), 1px 1px 3px rgba(0,0,0,0.8);
-  text-transform: uppercase;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.75);
   top: 12px;
 }
 
@@ -5371,16 +5354,16 @@ input [type="image"]:focus {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background-color: rgba(10, 30, 55, 0.85);
-  border: 1px solid rgba(80, 150, 210, 0.5);
+  background-color: transparent;
+  border: none;
   border-radius: 5px;
-  color: #a8d8f0;
+  color: #fff;
   cursor: pointer;
-  font-size: 18px;
-  height: 30px;
+  font-size: 20px;
+  height: 28px;
   margin-right: 16px;
-  padding-left: 12px;
-  padding-right: 28px;
+  padding-left: 16px;
+  padding-right: 16px;
   position: relative;
 }
 
@@ -5427,9 +5410,8 @@ input [type="image"]:focus {
 }
 
 #modal-customize-header {
-  background: linear-gradient(135deg, #0d2035 0%, #1a3a5c 50%, #0d2035 100%);
-  border-bottom: 2px solid rgba(80, 160, 220, 0.5);
-  color: #d0e8ff;
+  background-color: #547033;
+  color: #fff;
   height: 122px;
 }
 
@@ -5447,9 +5429,7 @@ input [type="image"]:focus {
 }
 
 .modal-customize-cat {
-  background: rgba(10, 25, 45, 0.7);
-  border: 1px solid rgba(60, 110, 160, 0.35);
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   display: inline-block;
   height: 72px;
@@ -5457,7 +5437,6 @@ input [type="image"]:focus {
   margin-top: 44px;
   position: relative;
   width: 70px;
-  transition: background 0.15s ease;
 }
 
 .modal-customize-cat-image {
@@ -5473,10 +5452,9 @@ input [type="image"]:focus {
 }
 
 .modal-customize-cat-connect {
-  background: #5bc8ff;
+  background: #a3c082;
   bottom: -16px;
-  height: 4px;
-  border-radius: 2px;
+  height: 8px;
   margin: auto;
   opacity: 0;
   position: relative;
@@ -5484,9 +5462,7 @@ input [type="image"]:focus {
 }
 
 .modal-customize-cat-selected {
-  background: rgba(30, 70, 130, 0.85) !important;
-  border-color: rgba(91, 200, 255, 0.7) !important;
-  box-shadow: 0 0 8px rgba(91, 200, 255, 0.3);
+  background: #82ad51 !important;
 }
 
 .modal-customize-cat-image-selected {
@@ -5502,22 +5478,34 @@ input [type="image"]:focus {
 }
 
 #modal-customize-footer {
-  background: linear-gradient(135deg, #0d2035 0%, #1a3a5c 100%);
-  border-top: 2px solid rgba(80, 160, 220, 0.5);
-  color: #d0e8ff;
+  background-color: #547033;
+  color: #fff;
   height: 56px;
 }
 
 #modal-customize-item-source {
-  color: #a8e0ff;
+  color: #ffdb7b;
   font-size: 24px;
   font-style: normal;
   line-height: 28px;
-  text-shadow: 0 0 8px rgba(100, 200, 255, 0.5);
 }
 
 #modal-customize-item-lore {
-  color: #c8f0ff;
+  color: #d2ff7b;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 28px;
+}
+
+#modal-customize-item-source {
+  color: #ffdb7b;
+  font-size: 24px;
+  font-style: normal;
+  line-height: 28px;
+}
+
+#modal-customize-item-lore {
+  color: #d2ff7b;
   font-size: 18px;
   font-style: italic;
   line-height: 28px;
@@ -7180,76 +7168,4 @@ input [type="image"]:focus {
     height: 280px;
     top: 310px;
   }
-}
-
-/* ============================================================
-   Winter Duel – Loadout menu polish (dark ice theme)
-   ============================================================ */
-
-/* Scrollbar in customize list */
-#modal-customize-list::-webkit-scrollbar {
-  width: 6px;
-}
-#modal-customize-list::-webkit-scrollbar-track {
-  background: rgba(5, 15, 30, 0.9);
-}
-#modal-customize-list::-webkit-scrollbar-thumb {
-  background: rgba(80, 150, 220, 0.5);
-  border-radius: 3px;
-}
-#modal-customize-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(91, 200, 255, 0.75);
-}
-
-/* Category tabs hover */
-.modal-customize-cat:hover {
-  background: rgba(25, 60, 110, 0.8) !important;
-  border-color: rgba(91, 200, 255, 0.5) !important;
-}
-
-/* Snowflake frost border on the whole customize modal */
-#modal-customize-wrapper {
-  border: 1px solid rgba(91, 200, 255, 0.18);
-  border-radius: 6px;
-  box-shadow: 0 4px 32px rgba(0, 30, 70, 0.8), 0 0 60px rgba(20, 80, 160, 0.15);
-  overflow: hidden;
-}
-
-/* Item rarity label */
-#modal-customize-item-rarity {
-  color: #7ab8d8;
-  text-shadow: 0 0 6px rgba(100, 180, 255, 0.4);
-}
-
-/* Crosshair panel dark */
-#modal-content-right-crosshair,
-#modal-content-right-emote {
-  background: linear-gradient(180deg, #0d2035 0%, #152a40 100%);
-  border-left: 1px solid rgba(80, 160, 220, 0.25);
-}
-
-/* Crosshair preview box */
-#customize-crosshair-selected {
-  background-color: rgba(5, 15, 35, 0.8);
-  border: 1px solid rgba(80, 150, 220, 0.4);
-  border-radius: 4px;
-  box-shadow: 0 0 16px rgba(0, 30, 80, 0.5);
-}
-
-/* Slider text */
-#customize-crosshair-sliders p {
-  color: #90c8e8;
-}
-
-/* Range slider track & thumb in winter theme */
-.crosshair-slider {
-  background: rgba(15, 40, 75, 0.9) !important;
-  border: 1px solid rgba(60, 120, 180, 0.4) !important;
-}
-.crosshair-slider::-webkit-slider-thumb {
-  background: #5bc8ff !important;
-  box-shadow: 0 0 6px rgba(91, 200, 255, 0.6) !important;
-}
-.crosshair-slider::-moz-range-thumb {
-  background: #5bc8ff !important;
 }
